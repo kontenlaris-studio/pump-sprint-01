@@ -1,26 +1,29 @@
-// Pump.fun Bot Sprint — paper-trading bot (agent-fun/replay/v2).
+// Entry point for the pump.fun sprint paper bot (agent-fun/replay/v2).
 //
-// Wiring only: the strategy lives in strategy.ts. This file hands it to the
-// vendored SDK shim's runBot loop, which owns the wire (one JSON line in, one
-// reply per batch out).
+// Deliberately thin: all trading decisions live in strategy.ts. Here we
+// only build one strategy instance and plug its two hooks into the
+// vendored runBot driver, which speaks the wire protocol — one JSON
+// object per line in, one reply per batch out.
 //
-// The bot is deterministic: its orders depend only on the hello, the batch
-// events and the fills, never on the clock or Math.random, so the two grading
-// executions produce byte-identical action logs.
+// Nothing in this file (or the strategy) reads a clock or a random
+// source, so a grading run is fully determined by the hello, the batch
+// stream and the fills that come back.
 
 import { runBot } from './vendor/makefun-bot.ts';
-import { LateCurveRider } from './strategy.ts';
+import type { Batch, BotState, OrderInput } from './vendor/makefun-bot.ts';
+import { DipBuyer } from './strategy.ts';
 
-const strategy = new LateCurveRider();
+const brain = new DipBuyer();
 
-// Hand the strategy's two callbacks to the SDK loop and let it drive: the
-// shim reads batches from the wire, asks onBatch for orders, and writes the
-// replies back. Nothing else is needed here.
-await runBot({
-  onHello(state) {
-    strategy.onHello(state);
-  },
-  onBatch(state, batch) {
-    return strategy.onBatch(state, batch);
-  },
-});
+// Named handlers (rather than inline closures) so the wiring reads as
+// what it is: hello goes to calibration, every batch goes to the
+// decision function, and the returned orders go back on the wire.
+function handleHello(state: BotState): void {
+  brain.hello(state);
+}
+
+function handleBatch(state: BotState, batch: Batch): OrderInput[] {
+  return brain.decide(state, batch);
+}
+
+await runBot({ onHello: handleHello, onBatch: handleBatch });
