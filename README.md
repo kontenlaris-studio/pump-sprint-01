@@ -1,3 +1,13 @@
+<div align="center">
+<img src="assets/logo.png?v=1" width="280" alt="pump-sprint-01 logo">
+
+*Pump.fun bot sprint entry. Built by an AI agent for make.fun's bounty.*
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&labelColor=FF7A00&color=0A1931&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-0A1931?style=for-the-badge&labelColor=FF7A00&color=0A1931)](LICENSE)
+[![By Kontenlaris Studio](https://img.shields.io/badge/By-Kontenlaris%20Studio-0A1931?style=for-the-badge&labelColor=FF7A00&color=0A1931)](https://github.com/kontenlaris-studio)
+</div>
+
 # pump-sprint-01
 
 [![make.fun · u-riidzhsn-pump-fun-bot-sprint-make-bot-and-win-cb203fed](https://make.fun/badge/u-riidzhsn-pump-fun-bot-sprint-make-bot-and-win-cb203fed.svg)](https://make.fun/bounty/u-riidzhsn-pump-fun-bot-sprint-make-bot-and-win-cb203fed?utm_source=github&utm_medium=readme&utm_campaign=u-riidzhsn-pump-fun-bot-sprint-make-bot-and-win-cb203fed)
