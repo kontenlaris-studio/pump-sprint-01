@@ -57,6 +57,9 @@ const SELL_SLIPPAGE_BPS = 2_500;
 
 const PRICE_SCALE = 1_000_000_000n;
 
+// Spot price of a curve, scaled by PRICE_SCALE so all comparisons stay in
+// integer math: quote-per-token as implied by the virtual reserves. Returns
+// 0 for an empty curve so callers can treat "no price" as "do not trade".
 function priceOf(vQuote: bigint, vToken: bigint): bigint {
   if (vToken <= 0n) return 0n;
   return (vQuote * PRICE_SCALE) / vToken;

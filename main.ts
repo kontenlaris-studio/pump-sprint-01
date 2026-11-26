@@ -13,6 +13,9 @@ import { LateCurveRider } from './strategy.ts';
 
 const strategy = new LateCurveRider();
 
+// Hand the strategy's two callbacks to the SDK loop and let it drive: the
+// shim reads batches from the wire, asks onBatch for orders, and writes the
+// replies back. Nothing else is needed here.
 await runBot({
   onHello(state) {
     strategy.onHello(state);
